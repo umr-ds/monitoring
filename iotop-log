@@ -1,0 +1,5 @@
+#!/bin/sh
+
+#sudo iotop -b -o -k -t $@
+sudo iotop -b -k -t $@
+
