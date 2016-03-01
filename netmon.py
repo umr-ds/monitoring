@@ -44,8 +44,8 @@ def print_total_stats():
     print csv_line
 
 def print_cur_stats():
-    cur_time = time.time()
-    csv_line = str(cur_time) + ","
+    cur_time = int(time.time() * 1000)
+    csv_line = str(cur_time) + ','
     csv_line += "%d,%d,%d,%d" % (cur_cnt['pkt'],cur_cnt['ip'],cur_cnt['tcp'],cur_cnt['udp'])
     csv_line += ",%d,%d,%d,%d" % (cur_size['pkt'],cur_size['ip'],cur_size['tcp'],cur_size['udp'])
     print csv_line
