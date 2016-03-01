@@ -15,10 +15,12 @@ import time
 def signal_handler(signum, frame):
         print('You pressed Ctrl+C!')
         print_total_stats()
+        sys.stdout.flush()
         sys.exit(0)
 
 def log_handler(signum, frame):
     print_cur_stats()
+    sys.stdout.flush()
     signal.alarm(1)
 
 def print_header():
