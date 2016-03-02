@@ -3,18 +3,14 @@
 if [ -z "$1" ] ; then
 	echo "usage: $0 <logfile> [process_name_pattern]"
 	exit 1
-elif [ -z "$2" ] ; then
-	echo "Logging all output to $1"
-	rm $1
-	while true; do
-		pidstat -drsuh >> $1
-		sleep 1
-	done
+fi
+
+echo "Logging output to $1"
+pidstat -drsuh -p ALL | sed '1d;/^$/d;s/#[ ]*Time/timestamp/g;s/^[ ]*//;s/[ ]\+/,/g' | head -n 1 > $1
+
+if [ -z "$2" ] ; then
+	exec pidstat -drush -p ALL 1 | sed '1d;/^[#]/d;/^$/d;s/^[ ]*//;s/[ ]\+/,/g' >> $1
 else
-	echo "Logging all output for patter $2 to file $1"
-	rm $1
-	while true; do
-		pidstat -drsuh -C $2 >> $1
-		sleep 1
-	done
+	echo "... using pattern $2"
+	exec pidstat -drush -p ALL -C $2 1 | sed '1d;/^[#]/d;/^$/d;s/^[ ]*//;s/[ ]\+/,/g' >> $1
 fi
